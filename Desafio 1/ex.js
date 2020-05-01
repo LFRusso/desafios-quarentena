@@ -10,10 +10,10 @@ const turnText = document.getElementById('text');
 let isTurnHappening = false;
 
 const playerAttacks = {
-  thunderShock: {
+  theWorld: {
     power: 40,
     accuracy: 100,
-    name: 'Thunder Shock',
+    name: 'The World',
     type: 'electric',
   },
   quickAttack: {
@@ -22,43 +22,44 @@ const playerAttacks = {
     name: 'Quick Attack',
     type: 'normal',
   },
-  thunder: {
+  starFinger: {
     power: 110,
     accuracy: 70,
-    name: 'Thunder',
+    name: 'Star Finger',
     type: 'electric',
   },
-  submission: {
+  oraOra: {
     power: 80,
     accuracy: 80,
-    name: 'Submission',
+    name: 'Ora Ora!',
     type: 'fighting',
   }
 }
 
 const opponentAttacks = {
-  tackle: {
+  theWorld: {
     power: 40,
     accuracy: 100,
-    name: 'Tackle',
+    name: 'The World',
     type: 'normal',
+    cooldown: 0,
   },
-  bubble: {
+  mudaMuda: {
     power: 40,
     accuracy: 100,
-    name: 'Bubble',
+    name: 'Muda Muda!',
     type: 'water',
   },
-  waterGun: {
+  knifeThrow: {
     power: 40,
     accuracy: 100,
-    name: 'Water Gun',
+    name: 'Knife Throw',
     type: 'water',
   },
-  hydroPump: {
+  roadRoller: {
     power: 110,
     accuracy: 80,
-    name: 'Hydro Pump',
+    name: 'Road Roller',
     type: 'water',
   }
 }
@@ -72,7 +73,7 @@ function gameOver (winner) {
     alert(winner + ' is the winner! Close this alert to play again');
     // Reload the game
     window.location.reload();
-  }, 1000);
+  }, 1000); 
 }
 
 // Check if attacks misses
@@ -116,6 +117,12 @@ function updateOpponentHp(newHP) {
 function playerAttack(attack) {
   // 0: return false if attack misses
   // 1: otherwise update opponents health and return true
+  if(willAttackMiss(attack.accuracy)){
+    return 0;
+  } else {
+    updateOpponentHp(opponentHp - attack.power)
+    return 1;
+  }
 }
 
 
@@ -128,8 +135,13 @@ function playerAttack(attack) {
 // opponent attack function that receives the used attack
 function opponentAttack(attack) {
   // 0: return false if attack misses
-  
   // 1: otherwise update player health and return true
+  if(willAttackMiss(attack.accuracy)){
+    return 0;
+  } else {
+    updatePlayerHp(playerHp - attack.power)
+    return 1;
+  }
 }
 
 function chooseOpponentAttack () {
@@ -150,12 +162,13 @@ function turn(playerChosenAttack) {
   const didPlayerHit = playerAttack(playerChosenAttack);
 
   // Update HTML text with the used attack
-  turnText.innerText = 'Player used ' + playerChosenAttack.name;
+  turnText.innerText = 'Jotaro Kujo used ' + playerChosenAttack.name;
 
   // Update HTML text in case the attack misses
   if (!didPlayerHit) {
-    turnText.innerText += ', but missed!';
+    turnText.innerText += ', but missed';
   }
+  turnText.innerText += "!";
 
   // Wait 2000ms to execute opponent attack (Player attack animation time)
   setTimeout(() => {
@@ -165,12 +178,14 @@ function turn(playerChosenAttack) {
     const didOpponentHit = opponentAttack(opponentChosenAttack);
 
     // Update HTML text with the used attack
-    turnText.innerText = 'Opponent used ' + opponentChosenAttack.name;
+    turnText.innerText = 'DIO used ' + opponentChosenAttack.name;
 
     // Update HTML text in case the attack misses
     if (!didOpponentHit) {
       turnText.innerText += ', but missed!';
     }
+    turnText.innterText += "!";
+
 
     // Wait 2000ms to end the turn (Opponent attack animation time)
     setTimeout(() => {
@@ -182,15 +197,15 @@ function turn(playerChosenAttack) {
 }
 
 // Set buttons click interaction
-document.getElementById('thunder-shock-button').addEventListener('click', function() {
-  turn(playerAttacks.thunderShock);
+document.getElementById('the-world-button').addEventListener('click', function() {
+  turn(playerAttacks.theWorld);
 });
 document.getElementById('quick-attack-button').addEventListener('click', function() {
   turn(playerAttacks.quickAttack);
 });
-document.getElementById('thunder-button').addEventListener('click', function() {
-  turn(playerAttacks.thunder);
+document.getElementById('starfinger-button').addEventListener('click', function() {
+  turn(playerAttacks.starFinger);
 });
-document.getElementById('submission-button').addEventListener('click', function() {
-  turn(playerAttacks.submission);
+document.getElementById('oraora-button').addEventListener('click', function() {
+  turn(playerAttacks.oraOra);
 });

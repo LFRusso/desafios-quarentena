@@ -3,50 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Um jogo de pikachu">
-  <title>Pokemon</title>
+  <meta name="description" content="Uma referência de JoJo">
+  <title>JoJo Battle</title>
   <link rel="stylesheet" href="style.css">
+
+  <!--Inicia musica quando clica em algum lugar da página-->
+  <script>
+      document.addEventListener('click', musicPlay);
+      function musicPlay() {
+          document.getElementById('player').play();
+          document.removeEventListener('click', musicPlay);
+      }
+    </script>
+
 </head>
 <body>
   <div id="arena">
-    <div id="squirtle">
+
+    <div id="dio">
       <div id="opponent-health-bar">
         <div min="0" max="100" value="100" id="opponent-health"></div>
       </div>
-      <img src="assets/squirtle.gif" alt="Squirtle">
+      <img src="assets/DIO.gif" alt="Dio">
       <div class="grass"></div>
     </div>
-    <div id="pikachu">
+
+    <div id="stand">
+      <img src="assets/starplatinum-orara.gif" />
+      <img src="assets/dio-mudamuda.gif" />
+    </div>
+
+    <div id="jotaro">
       <div id="player-health-bar">
         <div min="0" max="100" value="100" id="player-health"></div>
       </div>
-      <img src="assets/pikachu.gif" alt="Pikachu">
+      <img src="assets/Jotaro.gif" alt="Jotaro">
       <div class="grass"></div>
     </div>
+    
+    <!--Mudando posição do texto-->
+    <p id="text">
+      Choose one attack!
+    </p>
+    <!---->
+
     <div id="options">
       <div class="row">
-        <button id="thunder-shock-button">
-          Thunder Shock
+        <button id="the-world-button">
+          The World
         </button>
         <button id="quick-attack-button">
-          Quick Attack
+          Quick attack
         </button>
       </div>
       <div class="row">
-        <button id="thunder-button">
-          Thunder
+        <button id="starfinger-button">
+          Star finger
         </button>
-        <button id="submission-button">
-          Submission
+        <button id="oraora-button">
+          Ora ora
         </button>
       </div>
     </div>
     <div>
-      <p id="text">
-        Please choose one attack
-      </p>
     </div>
   </div>
   <script src="ex.js"></script>
+  
+  <!--Toca musiquinha-->
+  <audio id="player" autoplay loop><source src="assets/music.mp3" type="audio/mp3"></audio>
 </body>
 </html>
