@@ -39,7 +39,7 @@ const attacks = {
       },
     },
     oraOra: {
-      power: 510,
+      power: 110,
       accuracy: 75,
       name: 'Ora Ora',
       type: 'physical',
@@ -60,7 +60,7 @@ const attacks = {
       animation: () => {},
     },
     knifeThrow: {
-      power: 40,
+      power: 45,
       accuracy: 100,
       name: 'Knife Throw',
       type: 'ranged',
