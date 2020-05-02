@@ -77,10 +77,11 @@ const attacks = {
         document.getElementById("dio-img").style= "visibility: hidden";
         setTimeout(() => {
             document.getElementById("jotaro-img").src= "assets/roadroller.gif";
+
             document.getElementById("jotaro-img").style= "width: 300px";
             setTimeout(() => {
-                document.getElementById("jotaro-img").src= "assets/Jotaro.gif";
                 document.getElementById("jotaro-img").style= "width: 70px;";
+                document.getElementById("jotaro-img").src= "assets/Jotaro.gif";
                 document.getElementById("dio-img").style= "visibility: show";
             }, 1000)
         },1000)
