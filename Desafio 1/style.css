@@ -130,7 +130,7 @@ button {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   width: 70px;
-  max-width: 500px;
+  max-width: 100px;
 
   position: relative;
   z-index: 1;

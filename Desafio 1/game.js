@@ -4,7 +4,7 @@ const attacks = {
       accuracy: 100,
       name: 'The World',
       type: 'power',
-      effect: {name: 'paralysis', chance: 0.4, time: 2, onTrigger: () => {return true}},
+      effect: {name: 'paralysis', chance: 0.4, time: 2, totalTime: 2, onTrigger: () => {return true}},
       animation: () => {
             document.getElementById('arena').style = "filter: grayscale(50%)";
             setTimeout(()=>{
@@ -78,7 +78,7 @@ const attacks = {
         setTimeout(() => {
             document.getElementById("jotaro-img").src= "assets/roadroller.gif";
             setTimeout(()=>{
-                document.getElementById("jotaro-img").style= "width: 300px";
+                document.getElementById("jotaro-img").style= "width: 100px";
             }, 100)
             setTimeout(() => {
                 setTimeout(()=>{
@@ -104,12 +104,15 @@ class Character {
         this.HpBar = document.getElementById('opponent-health');
 
         this.effects = [];
+        this.sprite = "assets/DIO.gif";
+        this.animation = "assets/DIO.gif";
 
         this.attackAnimation = () => {
             document.getElementById('opponent-effect').style= "display: inline";
+            document.getElementById('dio-img').src= this.animation;
             setTimeout(()=>{
                 document.getElementById('opponent-effect').style= "display: none;";
-                document.getElementById('dio-img').src= "assets/DIO.gif"
+                document.getElementById('dio-img').src= this.sprite;
             }, 1300)
         };
     }
@@ -152,6 +155,8 @@ class GameState{
         this.Player = player;
         this.Enemy = enemy;
         this.playerTurn = true;
+
+        this.round = 1;
     }
 
     gameLoop(){
@@ -176,21 +181,26 @@ class GameState{
 
         document.getElementById('button4').addEventListener('click', () => {
             this.attackAction(this.Player.attacks[3], this.Enemy, this.Player)});
-            
     };
 
     enemyAttack(){
+
         const atk = this.Enemy.attacks[Math.floor(Math.random() * this.Enemy.attacks.length)];
-        this.attackAction(atk, this.Player, this.Enemy);
+        if(this.round == 1 && atk.name == "Road Roller"){
+            this.attackAction(this.Enemy.attacks[1], this.Player, this.Enemy);
+        } else {
+            this.attackAction(atk, this.Player, this.Enemy);
+        }
     }
 
     attackAction(attack, character, attacker) { 
         if(this.isTurnHappeninig){
             return;
         }
+        this.isTurnHappeninig = true;
 
         let effectInterrupts = this.manageEffects(attacker);
-        this.isTurnHappeninig = true;
+        
 
         if(!effectInterrupts){
             let willAttackMiss = Math.floor(Math.random() * 100) > attack.accuracy;
@@ -205,6 +215,8 @@ class GameState{
                     // Efeito do ataque
                     let effectChance = Math.random();
                     if(effectChance < attack.effect.chance){
+                        attack.effect.time = attack.effect.totalTime;
+                        console.log(attack.effect.time)
                         character.effects.push(attack.effect);
                         setTimeout(()=>{
                             this.turnText.innerText = character.name + " is now under " + attack.effect.name;
@@ -226,8 +238,8 @@ class GameState{
         }
 
         setTimeout(() => {
-            this.isTurnHappeninig = false;
             this.playerTurn = !this.playerTurn;
+            this.isTurnHappeninig = false;
 
             this.turnText.innerText = "Choose one attack!"
 
@@ -248,7 +260,7 @@ class GameState{
             return;
         } else {
             let interruptedTurn = false;
-            console.log(attacker.name + " com efeitos")
+            console.log(attacker.name + " com efeitos " + attacker.effects);
 
             for(let i=0; i<attacker.effects.length; i++){
                 let interrupts = attacker.effects[i].onTrigger();
@@ -271,6 +283,40 @@ class GameState{
         }
     }
 
+    nextRound(){
+        // Update player hp
+        this.Player.totalHp += 100;
+        this.Player.Hp = this.Player.totalHp;
+        this.Player.updateHp(0);
+
+        // Update enemy hp
+        this.Enemy.totalHp += 250;
+        this.Enemy.Hp = this.Enemy.totalHp;
+        this.Enemy.updateHp(0);
+
+        // Update enemy imgs
+        this.Enemy.sprite = "assets/DIO2.gif";
+        this.Enemy.animation = "assets/dio-pose.png";
+        this.Enemy.attackAnimation();
+
+        // Unlock new player attack
+        document.getElementById("button1").style="visibility: show"
+        this.turnText.innerText = "Star Platinum learns: THE WORLD!"
+
+        // Unlock new enemy attack
+        this.Enemy.attacks.shift();
+ 
+        document.getElementById("stand").style= "visibility: show";
+        document.getElementById("dio").style= "visibility: show";
+
+        this.playerTurn = false;
+        this.round += 1;
+
+        setTimeout(()=>{
+            this.gameLoop();
+        }, 1500)
+    }
+
     gameOver(winner){
            // Update HTML text with the winner
             if(winner == 'Jotaro'){
@@ -280,13 +326,24 @@ class GameState{
                 document.getElementById("dio").style= "visibility: hidden";
                 document.getElementById("text").style= "visibility: hidden";
 
+                
 
-                document.getElementById("dialog-btn-2").innerText = "Restart";
-                document.getElementById("dialog-btn-2").addEventListener("click", () =>{
-                    // Reload the game
-                    window.location.reload();
-                })       
-            }
+                if(this.round == 1){
+                    document.getElementById("dialog-btn-2").innerText = "Continue";
+                    document.getElementById("dialog-btn-2").addEventListener("click", () =>{
+                        // Next round
+                        this.nextRound();
+                    }) 
+                } else {
+                    document.getElementById("dialog-btn-2").innerText = "Restart";
+                    document.getElementById("dialog-btn-2").addEventListener("click", () =>{
+                        // Restart
+                        window.location.reload();
+                    }) 
+                }
+      
+            } 
+            
 
             if (winner == 'DIO') {
                 document.getElementById('arena').style = "filter: grayscale(100%)"; 
@@ -346,7 +403,7 @@ var player = new Player(400, player_atks, "Jotaro", "ranged");
 
 
 // Enemy info
-enemy_atks = [attacks.theWorld, attacks.mudaMuda, attacks.roadRoller, attacks.knifeThrow];
+enemy_atks = [attacks.theWorld, attacks.mudaMuda, attacks.knifeThrow, attacks.roadRoller];
 var enemy = new Character(500, enemy_atks, "DIO", "physical");
 
 gameIntro();
