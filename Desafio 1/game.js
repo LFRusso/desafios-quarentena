@@ -79,7 +79,7 @@ const attacks = {
             document.getElementById("jotaro-img").src= "assets/roadroller.gif";
             setTimeout(()=>{
                 document.getElementById("jotaro-img").style= "width: 300px";
-            }, 10)
+            }, 100)
             setTimeout(() => {
                 setTimeout(()=>{
                     document.getElementById("jotaro-img").style= "width: 70px";
