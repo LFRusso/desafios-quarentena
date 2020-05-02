@@ -6,39 +6,56 @@
   <meta name="description" content="Uma referência de JoJo">
   <title>JoJo Battle</title>
   <link rel="stylesheet" href="style.css">
-
-  <!--Inicia musica quando clica em algum lugar da página-->
-  <script>
-      document.addEventListener('click', musicPlay);
-      function musicPlay() {
-          document.getElementById('player').play();
-          document.removeEventListener('click', musicPlay);
-      }
-    </script>
-
 </head>
 <body>
   <div id="arena">
 
     <div id="dio">
+      <span style="flex-direction: row; position: absolute;" id="dio-dialog">
+        <div class="dialogbox">
+          <span style="color: crimson;">「DIO」</span>
+          <br>
+          Oh, you're approaching me?
+          <br>
+          <button style="scale: 50%;" id="dialog-btn-1">next</button>
+        </div>
+        <img src="assets/dio-portrait.png" style="width: 100px" class="portrait">
+      </span>
       <div id="opponent-health-bar">
         <div min="0" max="100" value="100" id="opponent-health"></div>
       </div>
-      <img src="assets/DIO.gif" alt="Dio">
+      <span style="display: flex;width: 100px; flex-direction: row;">
+        <img src="assets/DIO.gif" alt="Dio" id="dio-img">
+        <img src="assets/gogogo.gif" id="opponent-effect" style="display: none;"/> 
+      </span>
       <div class="grass"></div>
     </div>
 
     <div id="stand">
-      <img src="assets/starplatinum-orara.gif" />
-      <img src="assets/dio-mudamuda.gif" />
+      <img src="assets/starplatinum-orara.gif" id="starplatinum"/>
+      <img src="assets/dio-mudamuda.gif" id="theworld"/>
     </div>
 
     <div id="jotaro">
       <div id="player-health-bar">
         <div min="0" max="100" value="100" id="player-health"></div>
       </div>
-      <img src="assets/Jotaro.gif" alt="Jotaro">
+      <span style="display: flex; flex-direction: row;">
+        <img src="assets/Jotaro.gif" alt="Jotaro" id="jotaro-img">
+      </span>
       <div class="grass"></div>
+      <span id="jotaro-dialog">
+        <img src="assets/jotaro-portrait.png" class="portrait">
+        <div class="dialogbox">
+          <span style="color: rgb(255, 103, 129)">「JOTARO KUJO」</span>
+          <br>
+
+          <span id="jotaro-text">I can't beat you without getting closer, <b>DIO</b>!</span>
+
+          <br>
+          <button style="scale: 50%;" id="dialog-btn-2">fight!</button>
+        </div>
+      </span>
     </div>
     
     <!--Mudando posição do texto-->
@@ -46,29 +63,34 @@
       Choose one attack!
     </p>
     <!---->
+    <div id="restart">
+      <img src="assets/continued.png"/> 
+      <button id="restart-btn">RESTART</button>
+    </div>
 
     <div id="options">
       <div class="row">
-        <button id="the-world-button">
-          The World
+        <button id="button1">
+          ????
         </button>
-        <button id="quick-attack-button">
-          Quick attack
+        <button id="button2">
+          ????
         </button>
       </div>
       <div class="row">
-        <button id="starfinger-button">
-          Star finger
+        <button id="button3">
+          ????
         </button>
-        <button id="oraora-button">
-          Ora ora
+        <button id="button4">
+          ????
         </button>
       </div>
     </div>
     <div>
     </div>
   </div>
-  <script src="ex.js"></script>
+
+  <script src="game.js"></script>
   
   <!--Toca musiquinha-->
   <audio id="player" autoplay loop><source src="assets/music.mp3" type="audio/mp3"></audio>

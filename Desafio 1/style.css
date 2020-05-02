@@ -81,16 +81,26 @@ button {
   position: relative;
 }
 
+#dio-img {
+  transform: scaleX(-1);
+  max-height: 60px;
+  position: relative;
+  z-index: 2;
+}
+
 #dio img {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   width: 60px;
-  transform: scaleX(-1);
+}
 
-  position: relative;
-  left: 10px;
-  z-index: 1;
+#opponent-effect {
+  width: 150px;
+  position: absolute;
+  right: 20px;
+  bottom: -5px;
+  z-index: 2;
 }
 
 #opponent-health-bar {
@@ -115,15 +125,17 @@ button {
  padding: 0 20px;
 }
 
-#jotaro img {
+#jotaro-img {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   width: 70px;
+  max-width: 500px;
 
   position: relative;
   z-index: 1;
 }
+
 
 #player-health-bar {
   width: 100%;
@@ -189,4 +201,47 @@ button {
   image-rendering: crisp-edges;
 
   width: 200px;
+}
+
+.portrait {
+  max-width: 100px;
+  width: 100%;
+  position: absolute;
+  border: 5px solid #131963;
+  border-radius: 10px;
+}
+
+#jotaro .portrait {
+  transform: scaleX(-1);
+  left: 150px;
+  bottom:  200px;
+}
+
+#dio .portrait {
+  top: -20px;
+  right: 90px;
+}
+
+.dialogbox {
+  color: white;
+  font-weight: bolder;
+  position: absolute;
+  width: 300px;
+}
+
+#jotaro .dialogbox {
+  left: 280px;
+  bottom:  200px;
+}
+
+#dio .dialogbox {
+  right: 130px;
+  top: 10px;
+}
+
+
+#restart {
+  position: absolute;
+  display: none;
+  bottom: 10px;
 }
