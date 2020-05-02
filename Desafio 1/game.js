@@ -39,7 +39,7 @@ const attacks = {
       },
     },
     oraOra: {
-      power: 110,
+      power: 510,
       accuracy: 75,
       name: 'Ora Ora',
       type: 'physical',
@@ -77,14 +77,14 @@ const attacks = {
         document.getElementById("dio-img").style= "visibility: hidden";
         setTimeout(() => {
             document.getElementById("jotaro-img").src= "assets/roadroller.gif";
-            setTimeout(()=>{
-                document.getElementById("jotaro-img").style= "width: 100px";
-            }, 100)
+            document.getElementById("jotaro-img").style= "visibility: hidden";
+            document.getElementById("jotaro-img").style= "max-width: 300px; width: 100%";
+            document.getElementById("jotaro-img").style= "visibility: show";
             setTimeout(() => {
-                setTimeout(()=>{
-                    document.getElementById("jotaro-img").style= "width: 70px";
-                }, 10);
+                document.getElementById("jotaro-img").style= "visibility: hidden";
+                document.getElementById("jotaro-img").style= "width: 70px"
                 document.getElementById("jotaro-img").src= "assets/Jotaro.gif";
+                document.getElementById("jotaro-img").style= "visibility: show";
                 document.getElementById("dio-img").style= "visibility: show";
             }, 1000)
         },1000)
@@ -94,7 +94,6 @@ const attacks = {
 };
 
 class Character {
-
     constructor(Hp, atks, name, weakness){
         this.name = name
         this.weakness = weakness;
@@ -145,7 +144,6 @@ class Player extends Character {
     }
 }
 
-
 class GameState{
     constructor(player, enemy){
 
@@ -186,6 +184,8 @@ class GameState{
     enemyAttack(){
 
         const atk = this.Enemy.attacks[Math.floor(Math.random() * this.Enemy.attacks.length)];
+
+        // Prevents enemy from using special attack before round 2
         if(this.round == 1 && atk.name == "Road Roller"){
             this.attackAction(this.Enemy.attacks[1], this.Player, this.Enemy);
         } else {
@@ -201,7 +201,7 @@ class GameState{
 
         let effectInterrupts = this.manageEffects(attacker);
         
-
+        // If an interrupt effect is up, ignore attacker's attack
         if(!effectInterrupts){
             let willAttackMiss = Math.floor(Math.random() * 100) > attack.accuracy;
 
@@ -209,10 +209,10 @@ class GameState{
                 if(willAttackMiss){
                     this.turnText.innerText += ", but misses!";
                 } else {
-                    // Animação do ataque
+                    // Attack animation
                     this.playAttackAnimation(attack, attacker);
 
-                    // Efeito do ataque
+                    // Attack's special effect
                     let effectChance = Math.random();
                     if(effectChance < attack.effect.chance){
                         attack.effect.time = attack.effect.totalTime;
@@ -223,7 +223,7 @@ class GameState{
                         }, 500)
                     }
                     
-                    // Caso tenha fraqueza ao ataque
+                    // Check if victim is weak to the attack type
                     if(attack.type == character.weakness){
                         character.updateHp(1.5*attack.power);
                         setTimeout(()=>{
@@ -256,21 +256,16 @@ class GameState{
 
     manageEffects(attacker){
         if(attacker.effects.length == 0){
-            console.log(attacker.name + " sem efeitos")
             return;
         } else {
             let interruptedTurn = false;
-            console.log(attacker.name + " com efeitos " + attacker.effects);
 
             for(let i=0; i<attacker.effects.length; i++){
                 let interrupts = attacker.effects[i].onTrigger();
 
                 attacker.effects[i].time--;
 
-                console.log(attacker.effects[i].time);
-
                 if(attacker.effects[i].time <= 0){
-                    console.log("acabou efeito")
                     attacker.effects.splice(i, 1);
                 }
 
@@ -283,6 +278,8 @@ class GameState{
         }
     }
 
+
+    // Setting up for round 2
     nextRound(){
         // Update player hp
         this.Player.totalHp += 100;
@@ -302,9 +299,6 @@ class GameState{
         // Unlock new player attack
         document.getElementById("button1").style="visibility: show"
         this.turnText.innerText = "Star Platinum learns: THE WORLD!"
-
-        // Unlock new enemy attack
-        this.Enemy.attacks.shift();
  
         document.getElementById("stand").style= "visibility: show";
         document.getElementById("dio").style= "visibility: show";
@@ -317,16 +311,14 @@ class GameState{
         }, 1500)
     }
 
+    // Update HTML text with the winner / unlocks round 2
     gameOver(winner){
-           // Update HTML text with the winner
             if(winner == 'Jotaro'){
                 document.getElementById("jotaro-text").innerText ="Yare yare daze";
                 document.getElementById("jotaro-dialog").style="visibility: show";
                 document.getElementById("stand").style= "visibility: hidden";
                 document.getElementById("dio").style= "visibility: hidden";
                 document.getElementById("text").style= "visibility: hidden";
-
-                
 
                 if(this.round == 1){
                     document.getElementById("dialog-btn-2").innerText = "Continue";
@@ -341,26 +333,28 @@ class GameState{
                         window.location.reload();
                     }) 
                 }
-      
             } 
-            
 
+            // Game over
             if (winner == 'DIO') {
+                // Game over effects
                 document.getElementById('arena').style = "filter: grayscale(100%)"; 
                 document.getElementById("stand").style= "visibility: hidden";
-
-                document.getElementById('player').src= "assets/roundabout.mp3";
-                document.getElementById('player').volume= "0.25";
-
                 document.getElementById("text").style= "visibility: hidden";
                 document.getElementById("options").style= "visibility: hidden";
 
+                // Game over music
+                document.getElementById('player').src= "assets/roundabout.mp3";
+                document.getElementById('player').volume= "0.25";
+
+                // Show restart img and button
                 document.getElementById("restart").style= "display: inline";
                 document.getElementById("restart-btn").addEventListener("click", () =>{
                     // Reload the game
                     window.location.reload();
-                })       
+                }) 
 
+                // Resumes playing music
                 document.getElementById('player').play();
             }
 
@@ -371,6 +365,7 @@ class GameState{
         attack.animation();
     }
 }
+
 
 // Introduction dialog
 function gameIntro(){
@@ -396,6 +391,7 @@ function gameIntro(){
 
 }
 
+// ==================================================================== //
 
 // Player Info
 player_atks = [attacks.theWorld, attacks.quickAttack, attacks.starFinger, attacks.oraOra];
