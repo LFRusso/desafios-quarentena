@@ -77,10 +77,13 @@ const attacks = {
         document.getElementById("dio-img").style= "visibility: hidden";
         setTimeout(() => {
             document.getElementById("jotaro-img").src= "assets/roadroller.gif";
-
-            document.getElementById("jotaro-img").style= "width: 300px";
+            setTimeout(()=>{
+                document.getElementById("jotaro-img").style= "width: 300px";
+            }, 10)
             setTimeout(() => {
-                document.getElementById("jotaro-img").style= "width: 70px;";
+                setTimeout(()=>{
+                    document.getElementById("jotaro-img").style= "width: 70px";
+                }, 10);
                 document.getElementById("jotaro-img").src= "assets/Jotaro.gif";
                 document.getElementById("dio-img").style= "visibility: show";
             }, 1000)
@@ -290,7 +293,7 @@ class GameState{
                 document.getElementById("stand").style= "visibility: hidden";
 
                 document.getElementById('player').src= "assets/roundabout.mp3";
-                document.getElementById('player').volume= "0.15";
+                document.getElementById('player').volume= "0.25";
 
                 document.getElementById("text").style= "visibility: hidden";
                 document.getElementById("options").style= "visibility: hidden";
