@@ -1,149 +1,3 @@
-const attacks = {
-    theWorld: {
-      power: 40,
-      accuracy: 100,
-      name: 'The World',
-      type: 'power',
-      effect: {name: 'paralysis', chance: 0.4, time: 2, totalTime: 2, onTrigger: () => {return true}},
-      animation: () => {
-            document.getElementById('arena').style = "filter: grayscale(50%)";
-            setTimeout(()=>{
-                document.getElementById('arena').style = "filter: grayscale(00%)"
-            }, 1500)
-      },
-    },
-    quickAttack: {
-      power: 40,
-      accuracy: 100,
-      name: 'Quick Attack',
-      type: 'physical',
-      effect: '',
-      animation: () => {
-          document.getElementById('starplatinum').src = "assets/starplatinum-quickattack.gif";
-          setTimeout(()=> {
-            document.getElementById('starplatinum').src = "assets/starplatinum-orara.gif";
-          }, 500)
-      },
-    },
-    starFinger: {
-      power: 80,
-      accuracy: 80,
-      name: 'Star Finger',
-      type: 'ranged',
-      effect: '',
-      animation: () => {
-        document.getElementById('starplatinum').src = "assets/starplatinum-starfinger.gif";
-        setTimeout(()=>{
-            document.getElementById('starplatinum').src = "assets/starplatinum-orara.gif"
-        }, 800)
-      },
-    },
-    oraOra: {
-      power: 110,
-      accuracy: 75,
-      name: 'Ora Ora',
-      type: 'physical',
-      effect: '',
-      animation: () => {
-        document.getElementById('starplatinum').src = "assets/starplatinum-oraora.gif";
-        setTimeout(()=>{
-            document.getElementById('starplatinum').src = "assets/starplatinum-orara.gif"
-        }, 1500)
-      },
-    },
-    mudaMuda: {
-      power: 40,
-      accuracy: 100,
-      name: 'Muda Muda',
-      type: 'physical',
-      effect: '',
-      animation: () => {},
-    },
-    knifeThrow: {
-      power: 45,
-      accuracy: 100,
-      name: 'Knife Throw',
-      type: 'ranged',
-      effect: '',
-      animation: () => {},
-    },
-    roadRoller: {
-      power: 110,
-      accuracy: 80,
-      name: 'Road Roller',
-      type: 'power',
-      effect: '',
-      animation: () => {
-        document.getElementById("dio-img").style= "visibility: hidden";
-        setTimeout(() => {
-            document.getElementById("jotaro-img").src= "assets/roadroller.gif";
-            document.getElementById("jotaro-img").style= "visibility: hidden";
-            document.getElementById("jotaro-img").style= "max-width: 300px; width: 100%";
-            document.getElementById("jotaro-img").style= "visibility: show";
-            setTimeout(() => {
-                document.getElementById("jotaro-img").style= "visibility: hidden";
-                document.getElementById("jotaro-img").style= "width: 70px"
-                document.getElementById("jotaro-img").src= "assets/Jotaro.gif";
-                document.getElementById("jotaro-img").style= "visibility: show";
-                document.getElementById("dio-img").style= "visibility: show";
-            }, 1000)
-        },1000)
-
-      },
-    },
-};
-
-class Character {
-    constructor(Hp, atks, name, weakness){
-        this.name = name
-        this.weakness = weakness;
-        this.attacks = atks;
-        this.totalHp = Hp;
-        this.Hp = Hp;
-        this.HpBar = document.getElementById('opponent-health');
-
-        this.effects = [];
-        this.sprite = "assets/DIO.gif";
-        this.animation = "assets/DIO.gif";
-
-        this.attackAnimation = () => {
-            document.getElementById('opponent-effect').style= "display: inline";
-            document.getElementById('dio-img').src= this.animation;
-            setTimeout(()=>{
-                document.getElementById('opponent-effect').style= "display: none;";
-                document.getElementById('dio-img').src= this.sprite;
-            }, 1300)
-        };
-    }
-    
-    updateHp(damage){
-        // Prevents the HP to go lower than 0
-        this.Hp = Math.max(this.Hp - damage, 0);
-
-        // Update the hp bar
-        const barWidth = (this.Hp / this.totalHp) * 100;
-        this.HpBar.style.width = barWidth + '%';
-    }
-}
-
-class Player extends Character {
-    constructor(Hp, atks, name, weakness){
-        super(Hp, atks, name, weakness);
-        this.HpBar = document.getElementById('player-health');
-        document.getElementById('button1').innerText = this.attacks[0].name;
-        document.getElementById('button2').innerText = this.attacks[1].name;
-        document.getElementById('button3').innerText = this.attacks[2].name;
-        document.getElementById('button4').innerText = this.attacks[3].name;
-        
-        this.attackAnimation = () => {
-            document.getElementById('jotaro-img').src= "assets/jotaro-point.png";
-            setTimeout(()=>{
-                document.getElementById('jotaro-img').src= "assets/Jotaro.gif";
-            }, 800)
-        };
-    }
-}
-
 class GameState{
     constructor(player, enemy){
 
@@ -164,7 +18,6 @@ class GameState{
                 this.enemyAttack();
             }
     }
-
         
     handleInput() {
         // Set buttons click interaction
@@ -338,7 +191,7 @@ class GameState{
             // Game over
             if (winner == 'DIO') {
                 // Game over effects
-                document.getElementById('arena').style = "filter: grayscale(100%)"; 
+                document.getElementById('arena').style = "filter: grayscale(90%)"; 
                 document.getElementById("stand").style= "visibility: hidden";
                 document.getElementById("text").style= "visibility: hidden";
                 document.getElementById("options").style= "visibility: hidden";
