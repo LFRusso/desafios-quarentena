@@ -46,6 +46,7 @@ class GameState{
         }
     }
 
+    // Lida tanto com o playerAttack quanto com o opponentAttack do desafio 1
     attackAction(attack, character, attacker) { 
         if(this.isTurnHappeninig){
             return;
