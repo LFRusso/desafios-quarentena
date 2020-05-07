@@ -75,6 +75,7 @@ class Map {
 		this.hasMapBeenClickedYet = false;
 		this.isGameOver = false;
 		this.visibleCells = 0;
+		this.lifes = 3;
 
 		for (let row = 0; row < height; row ++) {
 			this.cells.push([]);
@@ -82,6 +83,8 @@ class Map {
 				this.cells[row].push(new Cell(root, column, row, this));
 			}
 		}
+
+		document.getElementById('lifes-txt').innerText = this.lifes;
 
 		root.style.gridTemplateColumns = `repeat(${width}, max-content)`;
 	}
@@ -153,7 +156,12 @@ class Map {
 		}
 		if (clickedCell.isBomb) {
 			clickedCell.element.style.backgroundColor = 'red';
-			this.gameOver();
+			this.lifes--;
+			document.getElementById('lifes-txt').innerText = this.lifes;
+
+			if(this.lifes == 0){
+				this.gameOver();
+			}
 			return;
 		}
 		clickedCell.reveal();

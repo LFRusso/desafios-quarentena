@@ -4,6 +4,26 @@ html, body {
 	margin: 0;
 }
 
+
+#lifes {
+	
+	position: absolute;
+	margin-left: 400px;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	max-width: 100px;
+	max-height: 50px;
+}
+
+#lifes img {
+	width: 20%;
+	height: 20%;	
+}
+
+
 #root {
 	display: grid;
 	justify-content: center;
