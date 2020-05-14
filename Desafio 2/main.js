@@ -78,6 +78,8 @@ class Map {
 		this.lifes = 3;
 		this.root = root;
 
+		this.root.style = "visibility= show";
+
 		for (let row = 0; row < height; row ++) {
 			this.cells.push([]);
 			for (let column = 0; column < width; column ++) {
@@ -85,6 +87,7 @@ class Map {
 			}
 		}
 
+		document.getElementById('lifes').style = "visibility= hidden";
 		document.getElementById('lifes-txt').innerText = this.lifes;
 
 		this.root.style.gridTemplateColumns = `repeat(${width}, max-content)`;
@@ -213,4 +216,4 @@ class Map {
 }
 
 // Instantiate a Map object
-new Map(document.getElementById('root'), 50, 30, 300);
+// new Map(document.getElementById('root'), 50, 30, 300);
