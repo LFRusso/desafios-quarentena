@@ -76,6 +76,7 @@ class Map {
 		this.isGameOver = false;
 		this.visibleCells = 0;
 		this.lifes = 3;
+		this.root = root;
 
 		for (let row = 0; row < height; row ++) {
 			this.cells.push([]);
@@ -86,7 +87,7 @@ class Map {
 
 		document.getElementById('lifes-txt').innerText = this.lifes;
 
-		root.style.gridTemplateColumns = `repeat(${width}, max-content)`;
+		this.root.style.gridTemplateColumns = `repeat(${width}, max-content)`;
 	}
 
 	// Used to verify if the given position is outside the map bounds
@@ -194,7 +195,21 @@ class Map {
 			}
 		}
 		this.isGameOver = true;
+
+
+		const restart_button = document.createElement('button')
+		restart_button.classList.add("restart-btn");
+		restart_button.innerText = "recomeçar"
+		restart_button.addEventListener('click', ()=>{window.location.reload();});
+
+		const gameover_msg =  document.createElement('div');
+		gameover_msg.classList.add("gameover-msg");
+		gameover_msg.innerText = "PERDESTE";
+		gameover_msg.appendChild(restart_button);
+
+		this.root.appendChild(gameover_msg);
 	}
+
 }
 
 // Instantiate a Map object
