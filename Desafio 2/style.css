@@ -87,9 +87,10 @@ html, body {
 }
 
 .gameover-msg {
+	left: 1000px;
 	position: absolute;
-	width: 50%;
-	height: 20%;
+	width: 20%;
+	height: 10%;
 	background-color: crimson;
 	border: solid red 10px;
 	border-radius: 10%;
@@ -102,13 +103,13 @@ html, body {
 
 	color: white;
 	font-weight: bolder;
-	font-size: 50px;
+	font-size: 15px;
 }
 
 .restart-btn{
-	font-size: 20px;
+	font-size: 10px;
 	width: 50%;
-	border-radius: 100%;
+	border-radius: 10%;
 }
 
 .lvl-selector {
@@ -125,4 +126,9 @@ html, body {
 	font-weight: bolder;
 	font-size: 30px;
 	color: wheat;
+}
+
+.lvl-selector:hover {
+	filter: brightness(80%);
+	cursor: pointer;
 }

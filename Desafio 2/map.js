@@ -166,6 +166,7 @@ class Map {
 		}
 		if (clickedCell.isBomb) {
 			clickedCell.element.style.backgroundColor = 'red';
+			clickedCell.visited = true;
 			this.lifes--;
 			document.getElementById('lifes-txt').innerText = this.lifes;
 
@@ -211,20 +212,17 @@ class Map {
 		this.isGameOver = true;
 
 
-		const restart_button = document.createElement('button')
+		var restart_button = document.createElement('button')
 		restart_button.classList.add("restart-btn");
 		restart_button.innerText = "recomeçar"
 		restart_button.addEventListener('click', ()=>{window.location.reload();});
 
-		//const gameover_msg =  document.createElement('div');
-		//gameover_msg.classList.add("gameover-msg");
-		//gameover_msg.innerText = "PERDESTE";
-		//gameover_msg.appendChild(restart_button);
+		var gameover_msg =  document.createElement('div');
+		gameover_msg.classList.add("gameover-msg");
+		gameover_msg.innerText = "PERDESTE";
+		gameover_msg.appendChild(restart_button);
 
-		//this.root.appendChild(gameover_msg);
+		this.root.appendChild(gameover_msg);
 	}
 
 }
-
-// Instantiate a Map object
-// new Map(document.getElementById('root'), 50, 30, 300);
