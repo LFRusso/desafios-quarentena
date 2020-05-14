@@ -37,6 +37,12 @@ class Cell {
 
 	reveal () {
 		if (this.visited) return;
+
+		// Desafio Extra 3
+		if (this.isFlagged){
+			this.element.classList.add('wrong-flag');
+			return;
+		}
     // Replace class hidden with class revealed on the div element
 		this.element.classList.replace('hidden', 'revealed');
 		if (this.isBomb) {
@@ -195,6 +201,11 @@ class Map {
 			for (let column = 0; column < this.width; column ++) {
 				const cell = this.cells[row][column];
 				if (cell.isBomb && !cell.isFlagged) cell.reveal();
+
+				// Desafio Extra 3
+				if (!cell.isBomb && cell.isFlagged){
+					cell.reveal();
+				}
 			}
 		}
 		this.isGameOver = true;
@@ -205,12 +216,12 @@ class Map {
 		restart_button.innerText = "recomeçar"
 		restart_button.addEventListener('click', ()=>{window.location.reload();});
 
-		const gameover_msg =  document.createElement('div');
-		gameover_msg.classList.add("gameover-msg");
-		gameover_msg.innerText = "PERDESTE";
-		gameover_msg.appendChild(restart_button);
+		//const gameover_msg =  document.createElement('div');
+		//gameover_msg.classList.add("gameover-msg");
+		//gameover_msg.innerText = "PERDESTE";
+		//gameover_msg.appendChild(restart_button);
 
-		this.root.appendChild(gameover_msg);
+		//this.root.appendChild(gameover_msg);
 	}
 
 }

@@ -72,6 +72,10 @@ html, body {
 	background-image: url('assets/flag.png');
 }
 
+.wrong-flag {
+	background-image: url('assets/wrong.png');
+}
+
 .revealed {
 	cursor: default;
 }
