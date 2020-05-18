@@ -96,6 +96,19 @@ class Asteroid extends MovableEntity {
 
 		this.life --;
 		if (this.life === 0) {
+			// Play sound
+			var sound = document.createElement("audio");
+			sound.type="audio/wav"
+			sound.src = "./assets/sound/sfx_exp_short_hard2.wav";
+			sound.play();
+
+			// Shake screen
+			document.getElementById("root").style = "animation: shake 0.5s;";
+			setTimeout(()=>{
+				document.getElementById("root").style = "";
+			}, 500);
+
+			this.mapInstance.increaseScore();
 			this.mapInstance.removeEntity(this);
 			this.delete();
 		}

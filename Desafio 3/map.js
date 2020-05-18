@@ -20,6 +20,9 @@ class Map {
 
 		// This is to allow for the map to set it's difficulty based on the game's time length
 		this.gameStartTimestamp = Date.now();
+
+		// Current player score
+		this.score = 0;
 	}
 
 	/**
@@ -68,6 +71,10 @@ class Map {
 		}
 	}
 
+	increaseScore () {
+		this.score++;
+	}
+
 	/**
 	* This function will check if an asteroid should spawn at the current game frame.
 	* @returns { boolean }
@@ -86,6 +93,11 @@ class Map {
 	* handle any collision that happened.
 	*/
 	frame () {
+
+		var time  = parseInt((Date.now() - this.gameStartTimestamp)/1000); 
+		//document.getElementById("score").innerText =  this.score + " | " + Date.now() - this.gameStartTimestamp;
+		document.getElementById("score").innerText = "score: "+ this.score + " | time: "  + time;
+
 		// Call the frame function on all movableEntities
 		this.movableEntities.forEach(entity => entity.frame());
 

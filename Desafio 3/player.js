@@ -63,6 +63,11 @@ class Player extends MovableEntity {
 	*/
 	shoot () {
 		new Bullet (this.containerElement, this.mapInstance, this.direction, this.position);
+		// Play shooting sound
+		var sound = document.createElement("audio");
+		sound.type="audio/wav"
+		sound.src = "./assets/sound/sfx_wpn_laser2.wav";
+		sound.play();
 	}
 
 	/**

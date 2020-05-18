@@ -35,6 +35,7 @@ class Bullet extends MovableEntity {
 		// Assigns the bullet's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/bullet.svg')";
 		this.rootElement.style.backgroundSize = this.size + 'px';
+		this.rootElement.classList.add("bullet");
 	}
 
 	// If the bullet collides with an asteroid, delete the bullet.
