@@ -61,8 +61,9 @@ class Player extends MovableEntity {
 	/**
 	* Instantiates a bullet in front of the player.
 	*/
-	shoot () {
-		new Bullet (this.containerElement, this.mapInstance, this.direction, this.position);
+	shoot (direction = this.direction) {
+		this.velocity = direction.scale(-0.1);
+		new Bullet (this.containerElement, this.mapInstance, direction, this.position);
 		// Play shooting sound
 		var sound = document.createElement("audio");
 		sound.type="audio/wav"

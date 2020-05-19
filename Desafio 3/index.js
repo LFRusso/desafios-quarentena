@@ -34,11 +34,24 @@ const pressedKeys = {};
 // This function will run every time the player presses a key
 document.body.addEventListener('keydown', event => {
 	// if that key is the spacebar, the player will shoot.
-	if (event.key === ' ' && !pressedKeys[' ']) player.shoot();
+	if ((event.key === ' ' && !pressedKeys[' '])) player.shoot();
 
 	// add the pressed key to the pressedKey dictionary
 	pressedKeys[event.key] = true;
 });
+
+// This function will run every time the player clicks
+document.body.addEventListener('click', (e) => {
+	// if the player clicks, the player will shoot.
+	var x = e.clientX - movableEntityContainer.offsetLeft;
+	var y = e.clientY - movableEntityContainer.offsetTop;
+	var click_coords = new Vector(x, y);
+	var direction = click_coords.subtract(player.position);
+	direction = direction.normalize();
+	player.shoot(direction);
+});
+
+
 
 // This function will run every time the player releases a key
 document.body.addEventListener('keyup', event => {

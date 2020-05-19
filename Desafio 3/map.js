@@ -93,11 +93,10 @@ class Map {
 	* handle any collision that happened.
 	*/
 	frame () {
-
 		var time  = parseInt((Date.now() - this.gameStartTimestamp)/1000); 
-		//document.getElementById("score").innerText =  this.score + " | " + Date.now() - this.gameStartTimestamp;
 		document.getElementById("score").innerText = "score: "+ this.score + " | time: "  + time;
 
+		
 		// Call the frame function on all movableEntities
 		this.movableEntities.forEach(entity => entity.frame());
 
