@@ -17,9 +17,20 @@ class Asteroid extends MovableEntity {
 	constructor (
 		containerElement,
 		mapInstance,
-		initialPosition
+		initialPosition, 
+		child = 0
 	) {
-		const size = Asteroid.getRandomSize();
+		if (child === 1) {
+			var size = MIN_ASTEROID_SIZE;
+			var rand_x = 50*Math.random() - 25;
+			var rand_y = 50*Math.random() - 25;
+			var rand_vec = new Vector(rand_x, rand_y);
+
+			initialPosition = initialPosition.add(rand_vec);
+		} else {
+			var size = Asteroid.getRandomSize();
+		}
+
 		const direction = Asteroid.getRandomDirection();
 
 		// The `super` function will call the constructor of the parent class.
@@ -36,6 +47,7 @@ class Asteroid extends MovableEntity {
 
 		// initializes the asteroid's life to it's maximum.
 		this.life = this.calculateMaxLife();
+		this.type = this.life;
 
 		// Finds a random image to assign to the asteroid's element
 		const asteroidImageIndex = Math.floor(Math.random() * 3) + 1;
@@ -107,6 +119,13 @@ class Asteroid extends MovableEntity {
 			setTimeout(()=>{
 				document.getElementById("root").style = "";
 			}, 500);
+
+			// Asteroids of type 3 spawn other smaller asteroids
+			if (this.type == 3) {
+				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);
+				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);
+				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);
+			}
 
 			this.mapInstance.increaseScore();
 			this.mapInstance.removeEntity(this);

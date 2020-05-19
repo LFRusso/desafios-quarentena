@@ -65,6 +65,15 @@ class Map {
 		if (entity1 instanceof Player && entity2 instanceof Bullet) return;
 		if (entity1 instanceof Bullet && entity2 instanceof Player) return;
 
+		if (entity1 instanceof Bonus && entity2 instanceof Player || entity1 instanceof Player && entity2 instanceof Bonus) {
+			if(MovableEntity.didEntitiesColide(entity1, entity2)) {
+				entity1.collided(entity2);
+				entity2.collided(entity1);
+			}
+			return;
+		} 
+
+
 		if (MovableEntity.didEntitiesColide(entity1, entity2)) {
 			entity1.collided(entity2);
 			entity2.collided(entity1);
@@ -87,6 +96,15 @@ class Map {
 		return Math.random() < asteroidSpawnChance;
 	}
 
+	/**
+	* This function will check if a bonus should spawn at the current game frame.
+	* @returns { boolean }
+	*/
+	shouldBonusSpawn () {
+		const bonusSpawnChance = Math.sqrt(Date.now() - this.gameStartTimestamp) / 300000;
+		return Math.random() < bonusSpawnChance;
+	}
+
 	/*
 	* This function should be executed every game frame. It will call all of it's
 	* movableObjects's frame functions (which will update their physics), and
@@ -96,7 +114,7 @@ class Map {
 		var time  = parseInt((Date.now() - this.gameStartTimestamp)/1000); 
 		document.getElementById("score").innerText = "score: "+ this.score + " | time: "  + time;
 
-		
+
 		// Call the frame function on all movableEntities
 		this.movableEntities.forEach(entity => entity.frame());
 
@@ -120,6 +138,14 @@ class Map {
 
 			// create the asteroid
 			new Asteroid(this.containerElement, this, position);
+		}
+
+		if(this.shouldBonusSpawn()) {
+			// pick a random position for the bonus
+			const position = new Vector(Math.random() - 0.5, Math.random() - 0.5).normalize().scale(299);
+
+			// create the bonus
+			new Bonus(this.containerElement, this, position);
 		}
 	}
 }

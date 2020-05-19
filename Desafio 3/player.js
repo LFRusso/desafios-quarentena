@@ -1,5 +1,57 @@
 const PLAYER_SIZE = 20;
 
+const WEAPONS = [
+	{
+		attack: (object, direction) => {
+			object.velocity = direction.scale(-0.1);
+			new Bullet (object.containerElement, object.mapInstance, direction, object.position);
+			// Play shooting sound
+			var sound = document.createElement("audio");
+			sound.type="audio/wav"
+			sound.src = "./assets/sound/sfx_wpn_laser2.wav";
+			sound.play();
+		},	
+	},
+
+	{
+		attack: (object, direction) => {
+			object.velocity = direction.scale(-0.1);
+			new Bullet (object.containerElement, object.mapInstance, direction, object.position);
+			new Bullet (object.containerElement, object.mapInstance, direction.rotate(7), object.position);
+			new Bullet (object.containerElement, object.mapInstance, direction.rotate(-7), object.position);
+			// Play shooting sound
+			var sound = document.createElement("audio");
+			sound.type="audio/wav"
+			sound.src = "./assets/sound/sfx_wpn_laser5.wav";
+			sound.play();
+		},	
+	},
+
+	{
+		attack: (object, direction) => {
+
+			var sound = document.createElement("audio");
+			sound.type="audio/wav"
+			sound.src = "./assets/sound/sfx_wpn_laser9.wav";
+			object.velocity = direction.scale(-0.1);
+			new Bullet (object.containerElement, object.mapInstance, direction, object.position);
+			sound.play();
+			setTimeout(()=>{
+				new Bullet (object.containerElement, object.mapInstance, direction, object.position);
+				sound.pause();
+				sound.currentTime = 0;
+				sound.play();
+				setTimeout(()=>{
+					new Bullet (object.containerElement, object.mapInstance, direction, object.position);
+					sound.pause();
+					sound.currentTime = 0;
+					sound.play();
+				}, 50);
+			}, 50);
+		},	
+	},
+]
+
 /**
 * This is a class declaration
 * This class is responsible for defining the player behavior
@@ -43,6 +95,8 @@ class Player extends MovableEntity {
 		// Assigns the player's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/player.svg')";
 		this.rootElement.style.backgroundSize = this.size + 'px';
+		// Set initial weapon
+		this.weapon = 0;
 	}
 
 	/**
@@ -62,20 +116,18 @@ class Player extends MovableEntity {
 	* Instantiates a bullet in front of the player.
 	*/
 	shoot (direction = this.direction) {
-		this.velocity = direction.scale(-0.1);
-		new Bullet (this.containerElement, this.mapInstance, direction, this.position);
-		// Play shooting sound
-		var sound = document.createElement("audio");
-		sound.type="audio/wav"
-		sound.src = "./assets/sound/sfx_wpn_laser2.wav";
-		sound.play();
+		WEAPONS[this.weapon].attack(this, direction);
 	}
 
-	/**
-	* This is only called if the player collides with an asteroid. Therefore,
-	* the game should end.
-	*/
-	collided () {
+
+	collided (object) {
+		if(object instanceof Bonus) {
+			this.weapon = object.type;
+			return;
+		}
+
+		if (!(object instanceof Asteroid)) return;
+
 		this.gameOverFunction();
 	}
 }
