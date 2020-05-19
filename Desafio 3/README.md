@@ -1,3 +1,6 @@
+## Disponível para jogar em:
+[https://compassionate-boyd-3a7159.netlify.app/](https://compassionate-boyd-3a7159.netlify.app/)
+
 # Desafio #3 - Asteroids
 
 <img src='https://i.imgur.com/CUPoqY4.png' >
