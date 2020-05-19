@@ -20,12 +20,12 @@ class Asteroid extends MovableEntity {
 		initialPosition, 
 		child = 0
 	) {
+		// Check if is a child of another asteroid of Type 3
 		if (child === 1) {
 			var size = MIN_ASTEROID_SIZE;
 			var rand_x = 50*Math.random() - 25;
 			var rand_y = 50*Math.random() - 25;
 			var rand_vec = new Vector(rand_x, rand_y);
-
 			initialPosition = initialPosition.add(rand_vec);
 		} else {
 			var size = Asteroid.getRandomSize();
@@ -47,12 +47,23 @@ class Asteroid extends MovableEntity {
 
 		// initializes the asteroid's life to it's maximum.
 		this.life = this.calculateMaxLife();
-		this.type = this.life;
+		this.type = this.life == 3 ? 5 : this.getAsteroidType();
+
+		// Asteroid Type 1: faster
+		if(this.type == 1) {
+			this.velocity = this.velocity.scale(5);
+			this.rootElement.style.filter = "invert(90%)";
+		}
 
 		// Finds a random image to assign to the asteroid's element
 		const asteroidImageIndex = Math.floor(Math.random() * 3) + 1;
 		this.rootElement.style.backgroundImage = `url('assets/asteroid-${asteroidImageIndex}.svg')`;
 		this.rootElement.style.backgroundSize = size + 'px';
+	}
+
+	getAsteroidType() {
+		var type = Math.floor(Math.random() *4 + 1);
+		return type;
 	}
 
 	/**
@@ -120,8 +131,8 @@ class Asteroid extends MovableEntity {
 				document.getElementById("root").style = "";
 			}, 500);
 
-			// Asteroids of type 3 spawn other smaller asteroids
-			if (this.type == 3) {
+			// Asteroids of type 5 spawn other smaller asteroids when destroyed
+			if (this.type == 5){
 				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);
 				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);
 				new Asteroid(this.mapInstance.containerElement, this.mapInstance, this.position, 1);

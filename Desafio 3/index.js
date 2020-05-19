@@ -69,4 +69,6 @@ function gameOver () {
 	// This will unregister the frame function, so nothing else will be updated
 	clearInterval(intervalHandler);
 	alert('Você perdeu');
+	location.reload();
+	
 }

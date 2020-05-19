@@ -1,12 +1,12 @@
 const PLAYER_SIZE = 20;
 
+const sound = document.createElement("audio");
 const WEAPONS = [
 	{
 		attack: (object, direction) => {
 			object.velocity = direction.scale(-0.1);
 			new Bullet (object.containerElement, object.mapInstance, direction, object.position);
 			// Play shooting sound
-			var sound = document.createElement("audio");
 			sound.type="audio/wav"
 			sound.src = "./assets/sound/sfx_wpn_laser2.wav";
 			sound.play();
@@ -20,7 +20,6 @@ const WEAPONS = [
 			new Bullet (object.containerElement, object.mapInstance, direction.rotate(7), object.position);
 			new Bullet (object.containerElement, object.mapInstance, direction.rotate(-7), object.position);
 			// Play shooting sound
-			var sound = document.createElement("audio");
 			sound.type="audio/wav"
 			sound.src = "./assets/sound/sfx_wpn_laser5.wav";
 			sound.play();
@@ -29,8 +28,6 @@ const WEAPONS = [
 
 	{
 		attack: (object, direction) => {
-
-			var sound = document.createElement("audio");
 			sound.type="audio/wav"
 			sound.src = "./assets/sound/sfx_wpn_laser9.wav";
 			object.velocity = direction.scale(-0.1);
@@ -110,6 +107,11 @@ class Player extends MovableEntity {
 	move () {
 		this.position = this.position.add(this.direction);
 		this.velocity = this.direction.scale(0.3);
+
+		// Border conditions for player
+		if(this.distanceFromCenter() > 290){
+			this.position = this.position.scale(-1)
+		}
 	}
 
 	/**
