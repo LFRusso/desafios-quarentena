@@ -107,11 +107,6 @@ class Player extends MovableEntity {
 	move () {
 		this.position = this.position.add(this.direction);
 		this.velocity = this.direction.scale(0.3);
-
-		// Border conditions for player
-		if(this.distanceFromCenter() > 290){
-			this.position = this.position.scale(-1)
-		}
 	}
 
 	/**
@@ -132,4 +127,18 @@ class Player extends MovableEntity {
 
 		this.gameOverFunction();
 	}
+
+	frame () {
+		this.position = this.position.add(this.velocity);
+
+		// Updates the object element's position
+		this.rootElement.style.left = this.position.x + 'px';
+		this.rootElement.style.top = this.position.y + 'px';
+	
+		// Border conditions for player
+		if(this.distanceFromCenter() > 290){
+			this.position = this.position.scale(-1)
+		}
+	}
+	
 }
