@@ -52,7 +52,7 @@ class Player extends Entity {
 		// Player Bomb counter
 		this.bombs = 2;
 		this.bombcounter = document.getElementById("bomb-txt");
-		this.bombcounter.innerText = "Bombs: " + this.bombs;
+		this.bombcounter.innerText = this.bombs;
 
 		Player.instance = this;
 	}
@@ -72,7 +72,7 @@ class Player extends Entity {
 
 	onBombHooked (bonusElement) {
 		this.bombs += 1;
-		this.bombcounter.innerText = "Bombs: " + this.bombs;
+		this.bombcounter.innerText = this.bombs;
 	}
 
 	throwHook () {
@@ -84,7 +84,7 @@ class Player extends Entity {
 		// checks if the player has enough bombs and has a rock hooked
 		if (this.bombs > 0 && this.hook.hookedObject instanceof Rock){
 			this.bombs -= 1;
-			this.bombcounter.innerText = "Bombs: " + this.bombs;
+			this.bombcounter.innerText = this.bombs;
 			this.hook.destroyRock();
 		}
 	}
