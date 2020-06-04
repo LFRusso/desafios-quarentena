@@ -74,9 +74,10 @@ class Player extends Entity {
 		this.hook.throw();
 	}
 
-	// Tries to throw a bomb, if the player has any
+	// Tries to destroy a rock using a bomb
 	throwBomb () {
-		if (this.bombs > 0){
+		// checks if the player has enough bombs and has a rock hooked
+		if (this.bombs > 0 && this.hook.hookedObject instanceof Rock){
 			this.bombs -= 1;
 			this.bombcounter.innerText = "Bombs: " + this.bombs;
 			this.hook.destroyRock();
