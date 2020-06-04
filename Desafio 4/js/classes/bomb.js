@@ -2,7 +2,7 @@ const BOMB_SIZE = 30;
 
 /**
 * This is a class declaration
-* This class is responsible for defining the gold behavior
+* This class is responsible for defining the bombs behavior
 *
 * This class extends the Entity class, which is responsible for binding the element's
 * positons and directions. If you'd like to know more about class inheritance in javascript, see this link
@@ -10,14 +10,14 @@ const BOMB_SIZE = 30;
 */
 class Bomb extends Entity {
 	/**
-	* Store all existing isntances of rocks, for easier tracking
+	* Store all existing isntances of bombs, for easier tracking
 	* @type { Bomb[] }
 	*/
 	static allBombElements = [];
 
 	/**
-	* @argument { HTMLDivElement } containerElement The HTML element in which the gold should be created.
-	* @argument { Vector } initialPosition The initial position of the gold
+	* @argument { HTMLDivElement } containerElement The HTML element in which the bomb should be created.
+	* @argument { Vector } initialPosition The initial position of the bomb
 	*/
 	constructor (
 		containerElement,
@@ -34,7 +34,7 @@ class Bomb extends Entity {
 		// Assigns the hook's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/bomb.png')";
 
-		// Add element to rocks list, for easier tracking.
+		// Add element to bombs list, for easier tracking.
 		Bomb.allBombElements.push(this);
 	}
 

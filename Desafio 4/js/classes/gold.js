@@ -17,7 +17,7 @@ const MAX_GOLD_SPEED_MULTIPLIER = 0.7;
 */
 class Gold extends Entity {
 	/**
-	* Store all existing isntances of rocks, for easier tracking
+	* Store all existing isntances of gold, for easier tracking
 	* @type { Gold[] }
 	*/
 	static allGoldElements = [];
@@ -41,7 +41,7 @@ class Gold extends Entity {
 		// Assigns the hook's image to it's element
 		this.rootElement.style.backgroundImage = "url('assets/gold.svg')";
 
-		// Add element to rocks list, for easier tracking.
+		// Add element to gold list, for easier tracking.
 		Gold.allGoldElements.push(this);
 	}
 
