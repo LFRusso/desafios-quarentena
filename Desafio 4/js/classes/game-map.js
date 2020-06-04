@@ -36,14 +36,13 @@ class GameMap extends Entity {
 		this.floor = new Entity(containerElement, new Vector(MAP_SIZE.x, 1), new Vector(0, FLOOR_HEIGHT));
 		this.floor.rootElement.style.border = '1px solid black';
 		this.floor.rootElement.style.zIndex = '1';
-		
 
 		// The current game level. Will increase when player captures enough gold
 		this.level = 0;
 
 		// The scoreboard that displays the current level
 		this.scoreboead = document.getElementById("lvl");
-		this.scoreboead.innerText = "Lvl: " + (this.level+1) + " |";
+		this.scoreboead.innerText = "Lvl: " + (this.level+1) + "/3 |";
 
 		this.initializeLevel();
 
@@ -53,7 +52,7 @@ class GameMap extends Entity {
 	/**
 	* Will initialize the whole level, creating all golds and rocks
 	*/
-	initializeLevel () {
+	initializeLevel () {		
 		// Spawning gold based on level score 
 		while (this.getCurrentGoldScoreInMap() < this.calculateTotalGoldScore()) {
 			this.generateItem('gold');
@@ -64,17 +63,19 @@ class GameMap extends Entity {
 			this.generateItem('rock');
 		}
 
+		// Spawning bombs randomly
 		for (let i= 0; i < this.calculateNumberOfBonus(); i++) {
 			this.generateItem('bomb');
 		}
 
 	}
 
+	// Setting up the next game level
 	nextLevel () {
 		this.level ++;
 		console.log('next level');
 		// Updates level in scoreboard
-		this.scoreboead.innerText = "Lvl: " + (this.level+1) + " |";
+		this.scoreboead.innerText = "Lvl: " + (this.level+1) + "/3 |";
 
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
@@ -194,7 +195,19 @@ class GameMap extends Entity {
 	*/
 	verifyIfLevelIsOver () {
 		if (Player.instance.score >= this.calculateMinimumScore(this.level)) {
+			// Checks if player finished the last level
+			this.verifyVictory ();
+			
 			this.nextLevel();
+		}
+	}
+
+	// If the player won the third level (of index 2), Victory!
+	verifyVictory () {
+		if (this.level == 2) {
+			alert("Victory!");
+			// Realoading page for the next match
+			document.location.reload();
 		}
 	}
 

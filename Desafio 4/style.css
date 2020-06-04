@@ -61,6 +61,7 @@ body, html {
 	position: absolute;
 	margin-top: 100px;
 	margin-left: 200px;
+	max-width: 250px;
 
 	padding: 10px;
 
@@ -73,4 +74,9 @@ body, html {
 
 	align-items: center;
 	justify-content: center;
+}
+
+#bomb-txt {
+	font-size: large;
+	padding: 4px;
 }
