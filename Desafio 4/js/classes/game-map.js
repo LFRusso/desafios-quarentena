@@ -43,7 +43,7 @@ class GameMap extends Entity {
 
 		// The scoreboard that displays the current level
 		this.scoreboead = document.getElementById("lvl");
-		this.scoreboead.innerText = "Lvl: " + this.level + " |";
+		this.scoreboead.innerText = "Lvl: " + (this.level+1) + " |";
 
 		this.initializeLevel();
 
@@ -54,24 +54,34 @@ class GameMap extends Entity {
 	* Will initialize the whole level, creating all golds and rocks
 	*/
 	initializeLevel () {
+		// Spawning gold based on level score 
 		while (this.getCurrentGoldScoreInMap() < this.calculateTotalGoldScore()) {
 			this.generateItem('gold');
 		}
 
+		// Spawning rocks based on level
 		for (let i = 0; i < this.calculateNumberOfRocks(); i ++) {
 			this.generateItem('rock');
 		}
+
+		for (let i= 0; i < this.calculateNumberOfBonus(); i++) {
+			this.generateItem('bomb');
+		}
+
 	}
 
 	nextLevel () {
 		this.level ++;
 		console.log('next level');
 		// Updates level in scoreboard
-		this.scoreboead.innerText = "Lvl: " + this.level + "|";
+		this.scoreboead.innerText = "Lvl: " + (this.level+1) + " |";
 
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());
+
+		// Delete all remaining bomb elements
+		Bomb.allBombElements.forEach(bomb => bomb.delete());
 		this.initializeLevel();
 	}
 
@@ -97,6 +107,11 @@ class GameMap extends Entity {
 	*/
 	calculateNumberOfRocks () {
 		return BASE_NUMBER_OF_ROCKS + this.level * 3;
+	}
+
+	// returns a random number that will be used to spawn the bonuses
+	calculateNumberOfBonus () {
+		return Math.floor(Math.random() * 5);
 	}
 
 	/**
@@ -136,12 +151,13 @@ class GameMap extends Entity {
 
 	/**
 	* Will generate either a rock element, or a gold element.
-	* @argument { 'rock' | 'gold' } itemType
+	* @argument { 'rock' | 'gold' | 'bomb' } itemType
 	*/
 	generateItem (itemType) {
 		let element;
 		if (itemType === 'rock') element = new Rock(this.containerElement, Vector.zero);
 		else if (itemType === 'gold') element = new Gold(this.containerElement, Vector.zero);
+		else if (itemType === 'bomb') element = new Bomb(this.containerElement, Vector.zero);
 		else throw new Error(`Invalid item type '${itemType}'`);
 
 		// Checks if the new element is colliding with anything on the map
@@ -199,10 +215,16 @@ class GameMap extends Entity {
 		// No need to check for collision if the hook is being pulled back
 		if (hook.status === 'pulling') return;
 
+		// Checking for collision between hook and each rock and gold entity
 		const rockAndGoldEntities = Rock.allRockElements.concat(Gold.allGoldElements);
-
 		rockAndGoldEntities.forEach(entity => {
 			this.verifyForCollision(hook, entity);
+		});
+
+		// Checking for collision between hook and each bomb
+		const bombEntities = Bomb.allBombElements;
+		bombEntities.forEach(bomb => {
+			this.verifyForCollision(hook, bomb);
 		});
 
 		// pull back the hook if it's gone too far
