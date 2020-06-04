@@ -1,6 +1,7 @@
 const MAP_SIZE = new Vector(400, 400);
 const FLOOR_HEIGHT = -100;
 
+// Sets number of gold and rocks for the FIRST level
 const BASE_SCORE_FOR_NEXT_LEVEL = 5;
 const BASE_NUMBER_OF_ROCKS = 2;
 
@@ -35,9 +36,14 @@ class GameMap extends Entity {
 		this.floor = new Entity(containerElement, new Vector(MAP_SIZE.x, 1), new Vector(0, FLOOR_HEIGHT));
 		this.floor.rootElement.style.border = '1px solid black';
 		this.floor.rootElement.style.zIndex = '1';
+		
 
 		// The current game level. Will increase when player captures enough gold
 		this.level = 0;
+
+		// The scoreboard that displays the current level
+		this.scoreboead = document.getElementById("lvl");
+		this.scoreboead.innerText = "Lvl: " + this.level + " |";
 
 		this.initializeLevel();
 
@@ -60,6 +66,9 @@ class GameMap extends Entity {
 	nextLevel () {
 		this.level ++;
 		console.log('next level');
+		// Updates level in scoreboard
+		this.scoreboead.innerText = "Lvl: " + this.level + "|";
+
 		// Delete all remaining gold and rock elements
 		Gold.allGoldElements.forEach(gold => gold.delete());
 		Rock.allRockElements.forEach(rock => rock.delete());

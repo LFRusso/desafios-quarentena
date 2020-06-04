@@ -44,6 +44,10 @@ class Player extends Entity {
 
 		// Will hold the player's total score.
 		this.score = 0;
+		
+		// The scoreboard that displays the current player score
+		this.scoreboead = document.getElementById("score");
+		this.scoreboead.innerText = "Score: " + this.score;
 
 		Player.instance = this;
 	}
@@ -56,6 +60,8 @@ class Player extends Entity {
 	onGoldHooked (goldElement) {
 		this.score += goldElement.calculateScore();
 		console.log('current player score is', this.score);
+		// Updates player score in scoreboard
+		this.scoreboead.innerText = "Score: " + this.score;
 		GameMap.instance.verifyIfLevelIsOver();
 	}
 
