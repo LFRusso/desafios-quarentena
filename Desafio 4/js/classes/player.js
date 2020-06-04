@@ -49,6 +49,11 @@ class Player extends Entity {
 		this.scoreboead = document.getElementById("score");
 		this.scoreboead.innerText = "Score: " + this.score;
 
+		// Player Bomb counter
+		this.bombs = 2;
+		this.bombcounter = document.getElementById("bomb-txt");
+		this.bombcounter.innerText = "Bombs: " + this.bombs;
+
 		Player.instance = this;
 	}
 
@@ -67,5 +72,14 @@ class Player extends Entity {
 
 	throwHook () {
 		this.hook.throw();
+	}
+
+	// Tries to throw a bomb, if the player has any
+	throwBomb () {
+		if (this.bombs > 0){
+			this.bombs -= 1;
+			this.bombcounter.innerText = "Bombs: " + this.bombs;
+			this.hook.destroyRock();
+		}
 	}
 }

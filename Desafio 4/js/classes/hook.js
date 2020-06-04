@@ -170,6 +170,13 @@ class Hook extends MovableEntity {
 		}
 	}
 
+	// Will try to destroy the hooked rock, if any 
+	destroyRock () {
+		if(this.hookedObject instanceof Rock) {
+			this.stopPulling();
+		}
+	}
+
 	/**
 	* Will run a swing frame, calculating the next hook direction.
 	*/

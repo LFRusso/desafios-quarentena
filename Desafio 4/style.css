@@ -36,6 +36,40 @@ body, html {
 }
 
 #scoreboard {
-	margin: 100px;
-	padding: 100px;
+	position: relative;
+
+	font-weight: bolder;
+	font-size: larger;
+}
+
+#powers {
+	max-height: 400px;
+	max-width: 100px;
+	position: relative;
+}
+
+#powers img {
+	scale: 100%;
+	max-width: 40px;
+	max-height: 40px;
+}
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	margin-top: 100px;
+	margin-left: 200px;
+
+	padding: 10px;
+
+	background-color: salmon;
+}
+
+#bomb {
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	justify-content: center;
 }
