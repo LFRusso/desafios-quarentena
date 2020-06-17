@@ -14,6 +14,7 @@ body, html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background-color: teal;
 }
 
 .grid {
@@ -35,4 +36,17 @@ body, html {
 
 .highlighted {
 	border: 6px solid red;
+}
+
+#status {
+	background-color: whitesmoke;
+	font-weight: bolder;
+	font-size: 30px;
+	padding: 10px;
+	border-radius: 10%;
+	margin: 5px;
+	position: absolute;
+	align-content: center;
+	justify-content: center;
+	font-family: fantasy;
 }

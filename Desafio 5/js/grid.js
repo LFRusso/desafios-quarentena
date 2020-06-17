@@ -29,6 +29,13 @@ class Grid {
 		this.rows = rows;
 		this.columns = columns;
 
+		/*
+		*  Adding status elment for score and timer
+		*/
+		this.status = document.getElementById("status");
+		this.score = 0;
+		this.time_left = 61;
+
 		/** Candy are squares. This is the length (in pixels) they should have in order
 		* not to create a map that is larger thant the user's screen.
 		* @type { number }
@@ -98,6 +105,33 @@ class Grid {
 			});
 			possibleExplosions = this.findAllPossibleExplosions();
 		}
+
+		// Runnig game timer
+		this.runTimer();
+	}
+	
+
+	/*
+	*	Runns timer, updating status content
+	*/
+	runTimer () {
+		this.time_left -= 1;
+		this.status.innerHTML = "score: "+ this.score + "<br>time: " + this.time_left + "s";
+
+		// Checks if timer reached zero and ends game if so
+		if(this.time_left === 0) this.gameOver();
+
+		setTimeout(()=>{
+			this.runTimer();
+		},1000);
+	}
+
+	/*
+	*	GameOver function runs if player ran out of time
+	*/
+	gameOver () {
+		alert("Game Over!");
+		location.reload();
 	}
 
 	/**
@@ -297,15 +331,21 @@ class Grid {
 	*/
 	async explodeAll () {
 		const explosions = this.findAllPossibleExplosions();
-
+		//console.log(explosions);
 		const results = await Promise.all(
 			explosions.map(async explosion => {
 				await Promise.all(
 					explosion.map(candy => this.explodeCandy(candy))
 				);
+				/* Adding explosions to the score (already considering the vector repetition caused by the findAllPossibleExplosions 
+				*  function as a bonus for exploding groups greater than 3)
+				*/
+				if(explosion.length>=3)this.score += explosion.length - 2;
 				return true;
 			})
 		);
+		// Updating status text
+		this.status.innerHTML = "score: "+ this.score + "<br>time: " + this.time_left + "s";
 		return results.some(e => e);
 	}
 
@@ -351,11 +391,10 @@ class Grid {
 		}
 
 		// Gets all sets of matches around the candy that are larger than 3
+		// OBS: removed (0,-1) and (-1,0) to avoid repetition
 		const possibleGroups = [
 			findLargestGroup(0, 1),
-			findLargestGroup(0, -1),
 			findLargestGroup(1, 0),
-			findLargestGroup(-1, 0),
 		].filter(group => group.length >= 3);
 
 		if (possibleGroups.length === 0) return null;
