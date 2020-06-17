@@ -198,6 +198,16 @@ class Grid {
 	* @argument { Candy | null } candy
 	*/
 	select (candy) {
+
+		// Prevents player from selecting rocks
+		if(candy && candy.type === 6) {
+			if(this.selectedCandy){
+				this.selectedCandy.unhighlight();
+				this.selectedCandy = null;
+			}
+			return;
+		}
+
 		if (this.selectedCandy) this.selectedCandy.unhighlight();
 		this.selectedCandy = candy;
 		if (candy) candy.highlight();
@@ -274,6 +284,10 @@ class Grid {
 	* @argument { Candy } candy2
 	*/
 	async swapCandy (candy1, candy2) {
+
+		// Prevents player from moving rocks
+		if(candy1.type===6 || candy2.type===6) return;
+
 		// Since some animations will now start, prevents the player from playing
 		this.canPlayerPlay = false;
 
