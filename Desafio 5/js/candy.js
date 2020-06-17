@@ -3,14 +3,14 @@
 * @type { ['red', 'green', 'blue', 'yellow', 'magenta', 'cyan', 'rock'] }
 */
 const CandyColors = [
-	'red',
-	'green',
-	'blue',
-	'yellow',
-	'magenta',
-	'cyan',
+	'assets/img/iron.png',
+	'assets/img/emerald.png',
+	'assets/img/diamond.png',
+	'assets/img/gold.png',
+	'assets/img/coal.png',
+	'assets/img/redstone.png',
 	// Rock element
-	'black',
+	'assets/img/bedrock.png',
 ];
 
 /**
@@ -85,8 +85,10 @@ class Candy {
 
 	/** Will automatically update the candy's border color, whenever it's type changes */
 	set type (newType) {
-		this.rootElement.style.borderColor = 'white';
-		this.rootElement.style.backgroundColor = CandyColors[newType]
+		// Prevents from putting white borders around rocks
+		if(newType != 6) this.rootElement.style.borderColor = 'white';
+		this.rootElement.style.backgroundImage = "url("+CandyColors[newType]+")";
+		console.log(CandyColors[newType])
 		this._type = newType;
 	}
 

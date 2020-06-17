@@ -6,6 +6,8 @@ body, html {
 	margin: 0;
 	height: 100%;
 	overflow: hidden;
+
+	background-image: url('assets/img/stonepattern.jpg');
 }
 
 #root {
@@ -14,7 +16,6 @@ body, html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: teal;
 }
 
 .grid {
@@ -25,13 +26,18 @@ body, html {
 
 .candy {
 	border: 2px solid black;
-	border-radius: 16px;
 	cursor: pointer;
 	position: relative;
 	left: 0;
 	top: 0;
 	margin: 4px;
 	transition: 200ms border;
+
+	background-repeat: no-repeat;
+	background-size: cover;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
 }
 
 .highlighted {

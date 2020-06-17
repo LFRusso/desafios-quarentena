@@ -116,7 +116,7 @@ class Grid {
 	*/
 	runTimer () {
 		this.time_left -= 1;
-		this.status.innerHTML = "score: "+ this.score + "<br>time: " + this.time_left + "s";
+		this.status.innerHTML = "score: "+ this.score + "/20<br>time: " + this.time_left + "s";
 
 		// Checks if timer reached zero and ends game if so
 		if(this.time_left === 0) this.gameOver();
@@ -131,6 +131,14 @@ class Grid {
 	*/
 	gameOver () {
 		alert("Game Over!");
+		location.reload();
+	}
+
+	/*
+	*	Player victory function runs if player got 20 points
+	*/
+	gameVictory () {
+		alert("Victory!");
 		location.reload();
 	}
 
@@ -355,11 +363,13 @@ class Grid {
 				*  function as a bonus for exploding groups greater than 3)
 				*/
 				if(explosion.length>=3)this.score += explosion.length - 2;
+				// Checks if player scored enought to win the game
+				if(this.score >= 20) this.gameVictory();
 				return true;
 			})
 		);
 		// Updating status text
-		this.status.innerHTML = "score: "+ this.score + "<br>time: " + this.time_left + "s";
+		this.status.innerHTML = "score: "+ this.score + "/20<br>time: " + this.time_left + "s";
 		return results.some(e => e);
 	}
 
