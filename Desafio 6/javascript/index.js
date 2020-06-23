@@ -3,6 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const jokempo = require('./jokempo');
 const help = require('./help');
 const randomPhrases = require('./random-phrases');
+const date = require('./date.js')
 
 
 // Getting bot token
@@ -28,6 +29,8 @@ bot.on('message', async (msg) => {
 		return;
 	} else if (help.main(bot, chatId, chatMessage)) {
 		return;
+	} else if (chatMessage.startsWith('que dia é hoje')) {
+		date.main(bot, chatId);
 	} else {
 		randomPhrases.writeRandomPhrase(bot, chatId);
 	}
