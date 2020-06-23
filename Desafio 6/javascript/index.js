@@ -1,10 +1,13 @@
 process.env.NTBA_FIX_319 = true; // Silences an annoying error message.
 const TelegramBot = require('node-telegram-bot-api');
 const jokempo = require('./jokempo');
+const help = require('./help');
 const randomPhrases = require('./random-phrases');
 
-// replace the value below with the Telegram token you receive from @BotFather
-const token = 'YOUR ACCESS TOKEN HERE';
+
+// Getting bot token
+const token = require('./token.js').token;
+
 
 if (token === 'YOUR ACCESS TOKEN HERE') {
 	console.log('You forgot to replate the access token!!! Properly read the README before continuing >:(');
@@ -22,6 +25,8 @@ bot.on('message', async (msg) => {
 	if (chatMessage.startsWith('ola') || chatMessage.startsWith('oi')) {
 		bot.sendMessage(chatId, 'Olá! Como vai o seu dia?');
 	} else if (jokempo.main(bot, chatId, chatMessage)) {
+		return;
+	} else if (help.main(bot, chatId, chatMessage)) {
 		return;
 	} else {
 		randomPhrases.writeRandomPhrase(bot, chatId);
