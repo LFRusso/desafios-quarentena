@@ -3,9 +3,11 @@ const TelegramBot = require('node-telegram-bot-api');
 const jokempo = require('./jokempo');
 const help = require('./help');
 const randomPhrases = require('./random-phrases');
-const date = require('./date.js')
+const date = require('./date.js');
+const quiz = require('./quiz.js');
 
 
+// Desafio Bonus 1
 // Getting bot token
 const token = require('./token.js').token;
 
@@ -28,9 +30,14 @@ bot.on('message', async (msg) => {
 	} else if (jokempo.main(bot, chatId, chatMessage)) {
 		return;
 	} else if (help.main(bot, chatId, chatMessage)) {
+		// Desafio 1
 		return;
 	} else if (chatMessage.startsWith('que dia é hoje')) {
+		// Desafio Bonus 2
 		date.main(bot, chatId);
+	} else if (quiz.main(bot, chatId, chatMessage)) {
+		// Desafio Bonus 3
+		return;
 	} else {
 		randomPhrases.writeRandomPhrase(bot, chatId);
 	}
